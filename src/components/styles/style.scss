@@ -131,4 +131,14 @@ svg {
       color: brown;
     }
   }
+  .deleteDiv {
+    .delete-h1 {
+      font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+        sans-serif;
+      &:hover {
+        color: red;
+        cursor: pointer;
+      }
+    }
+  }
 }

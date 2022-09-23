@@ -35,9 +35,16 @@ const busketSlice = createSlice({
         )
         .filter((item) => item);
     },
+    deleteSelectedItem(state, { payload }) {
+      state.busket = state.busket.filter((item) => item.id !== payload.id);
+    },
+    buyItems(state) {
+      state.busket = [];
+    },
   },
 });
-export const { addToBusket, removeFromBusket } = busketSlice.actions;
+export const { addToBusket, removeFromBusket, deleteSelectedItem, buyItems } =
+  busketSlice.actions;
 export const busketSelector = (state) => state.busket.busket;
 export const allItemsTotalSelector = (state) =>
   state.busket.busket.reduce((curr, next) => curr + next.price * next.count, 0);
