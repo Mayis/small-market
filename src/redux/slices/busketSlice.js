@@ -48,5 +48,5 @@ export const { addToBusket, removeFromBusket, deleteSelectedItem, buyItems } =
 export const busketSelector = (state) => state.busket.busket;
 export const allItemsTotalSelector = (state) =>
   state.busket.busket.reduce((curr, next) => curr + next.price * next.count, 0);
-
+export const busketLength = (state) => state.busket.busket.length;
 export default busketSlice.reducer;
