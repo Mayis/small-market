@@ -4,40 +4,65 @@ import {
   busketSelector,
   allItemsTotalSelector,
   buyItems,
+  isOpenSelector,
+  closeBusket,
 } from "../redux/slices/busketSlice";
 import BusketItem from "../components/BusketItem";
-import "./styles/style.css";
+import {
+  Drawer,
+  List,
+  ListItemIcon,
+  ListItemText,
+  ListItem,
+  Divider,
+  Typography,
+  IconButton,
+} from "@mui/material";
+import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
+import PaidIcon from "@mui/icons-material/Paid";
 export default function Busket() {
   const busket = useSelector(busketSelector);
   const allTotal = useSelector(allItemsTotalSelector);
+  const isBusketOpen = useSelector(isOpenSelector);
   const dispatch = useDispatch();
   const buyAllItems = () => {
     dispatch(buyItems());
   };
-  return busket.length > 0 ? (
-    <>
-      <div id="busket">
-        {busket?.map((item) => (
-          <BusketItem key={item.id} item={item} />
-        ))}
-      </div>
-      <div className="allTotal">
-        {" "}
-        <span className="totalWord">ALL TOTAL</span>
-        <span className="priceNum">{allTotal}$</span>
-      </div>
-      <div className="buyOrCancel">
-        <button className="buy" onClick={buyAllItems}>
-          BUY
-        </button>
-      </div>
-    </>
-  ) : (
-    <div className="ifNoProduct">
-      <h1>
-        THERE IS NO PRODUCT IN THE BUSKET <br />
-        PLEASE SELECT PRODUCT{" "}
-      </h1>
-    </div>
+  const closeTheBusket = () => {
+    dispatch(closeBusket());
+  };
+  return (
+    <Drawer anchor={"right"} open={isBusketOpen} onClose={closeTheBusket}>
+      <List sx={{ width: "350px" }}>
+        <ListItem>
+          <ListItemIcon>
+            <ShoppingBasketIcon />
+          </ListItemIcon>
+          <ListItemText primary="Basket" />
+        </ListItem>
+        <Divider />
+        {!busket.length ? (
+          <ListItem> Basket is Empty</ListItem>
+        ) : (
+          <>
+            {busket.map((item) => (
+              <BusketItem key={item.id} item={item} />
+            ))}
+            <Divider />
+            <ListItem>
+              <Typography sx={{ fontWeight: "700" }}>
+                total :{allTotal}$
+              </Typography>
+              <IconButton
+                sx={{ position: "absolute", right: "5px" }}
+                onClick={buyAllItems}
+              >
+                <PaidIcon color="success" fontSize="large" />
+              </IconButton>
+            </ListItem>
+          </>
+        )}
+      </List>
+    </Drawer>
   );
 }

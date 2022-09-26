@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   busket: [],
+  isOpen: false,
 };
 
 const busketSlice = createSlice({
@@ -41,10 +42,23 @@ const busketSlice = createSlice({
     buyItems(state) {
       state.busket = [];
     },
+    openBusket(state) {
+      state.isOpen = true;
+    },
+    closeBusket(state) {
+      state.isOpen = false;
+    },
   },
 });
-export const { addToBusket, removeFromBusket, deleteSelectedItem, buyItems } =
-  busketSlice.actions;
+export const {
+  addToBusket,
+  removeFromBusket,
+  deleteSelectedItem,
+  buyItems,
+  openBusket,
+  closeBusket,
+} = busketSlice.actions;
+export const isOpenSelector = (state) => state.busket.isOpen;
 export const busketSelector = (state) => state.busket.busket;
 export const allItemsTotalSelector = (state) =>
   state.busket.busket.reduce((curr, next) => curr + next.price * next.count, 0);
